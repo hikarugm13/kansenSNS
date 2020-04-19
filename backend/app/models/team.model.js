@@ -1,18 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
-  const Review = sequelize.define("reviews", {
-    gameId: {
+  const Team = sequelize.define("teams", {
+    teamName: {
       type: Sequelize.STRING,
     },
-    userId: {
+    level: {
       type: Sequelize.STRING,
     },
-    review: {
-      type: Sequelize.STRING(1500),
-    },
-    image: {
+    sportsName: {
       type: Sequelize.STRING,
     },
+ 
   });
 
-  return Review;
+  return Team;
 };

@@ -52,9 +52,13 @@ export default {
        try {
         let response = await this.$http.post("api/auth/signin", this.signIn);
         let token = response.data.token;
+        let user = response.data
         localStorage.setItem("jwt", token);
+        localStorage.setItem("user",JSON.stringify(user));
+          // console.log(user)
         if (token) {
           swal("Success", "Login Successful", "Error");
+          this.$store.dispatch("auth/login",user)
           this.$router.push("/findGame");
         }
       } catch (err) {

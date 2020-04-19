@@ -67,7 +67,7 @@ export default {
         this.$router.push("/");
       } catch (err) {
         let error = err.response;
-        if (error.status == 409) {
+        if (error.status == 400) {
           swal("Error", error.data.message, "error");
         } else {
           swal("Error", error.data.err.message, "error");

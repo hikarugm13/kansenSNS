@@ -12,6 +12,12 @@ module.exports = (sequelize, Sequelize) => {
     gameDate: {
       type: Sequelize.STRING
     },
+    startTime: {
+      type: Sequelize.DATE 
+    },
+    endTime: {
+      type: Sequelize.DATE 
+    },
     homeTeamId: {
       type: Sequelize.STRING
     },

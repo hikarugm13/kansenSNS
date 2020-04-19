@@ -51,6 +51,64 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: "/reviewDetail/:id",
+    name: "reviewDetail",
+    props: true,
+    component: () => import("../views/ReviewDetail.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/gameChat/:gameId",
+    name: "gameChat",
+    props: true,
+    component: () => import("../views/GameChat.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/myPage/:id",
+    name: "myPage",
+    props: true,
+    component: () => import("../views/MyPage.vue"),
+    meta: {
+      requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (localStorage.getItem("jwt") == null) {
+          next({
+            path: "/"
+          });
+        } else {
+          next();
+        }
+      } else {
+        next();
+      }
+    }
+  },
+  {
+    path: "/myCalendar/:id",
+    name: "myCalendar",
+    props: true,
+    component: () => import("../views/MyCalendar.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/teamInfo/:teamName",
+    name: "teamInfo",
+    props: true,
+    component: () => import("../views/Team.vue"),
+    meta: {
+      requiresAuth: true
+    }
   }
 ];
 
@@ -59,17 +117,17 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (localStorage.getItem("jwt") == null) {
-      next({
-        path: "/"
-      });
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (localStorage.getItem("jwt") == null) {
+//       next({
+//         path: "/"
+//       });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next();
+//   }
+// });
 export default router;
