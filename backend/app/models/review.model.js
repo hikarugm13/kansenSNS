@@ -6,6 +6,9 @@ module.exports = (sequelize, Sequelize) => {
     userId: {
       type: Sequelize.STRING,
     },
+    userName: {
+      type: Sequelize.STRING,
+    },
     review: {
       type: Sequelize.STRING(1500),
     },

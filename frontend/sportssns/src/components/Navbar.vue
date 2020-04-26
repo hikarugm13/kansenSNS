@@ -1,9 +1,9 @@
 <template>
   <nav>
-    <v-toolbar dense>
+    <v-toolbar dense color="light-blue accent-3">
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
-      <router-link to="/findGame">KANSEN</router-link>
+      <h2 class="my-2"><router-link class="white--text" to="/findGame" >KANSEN</router-link></h2>
       <div class="mx-2">
         <v-btn to="/findGame" small color="primary" >FindGame</v-btn>
       </div>
@@ -37,7 +37,7 @@ export default {
       localStorage.removeItem("user");
       this.$store.dispatch("auth/logout",user)
       // console.log(this.$store.state.auth)
-      this.$router.push("/");
+      this.$router.push("/findGame");
     },
   },
 };

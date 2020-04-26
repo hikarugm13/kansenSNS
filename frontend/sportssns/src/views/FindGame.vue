@@ -1,6 +1,5 @@
-
 <template>
-<v-app>
+  <v-app>
     <v-content>
       <section id="hero">
         <v-row no-gutters>
@@ -8,56 +7,140 @@
             :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
             src=""
           >
-            <v-theme-provider dark>
-              <v-container fill-height>
-                <v-row
-                  align="center"
-                  class="white--text mx-auto"
-                  justify="center"
-                >
-                  <v-col
-                    class="light-blue--text text-center"
-                    cols="12"
-                    tag="h1"
+            <v-theme-provider>
+              <v-form
+                class="text-center"
+                style="margin-top: 10px; height: 100%; padding-top: 10px !important;"
+                @submit.prevent="findGame"
+                fill-height
+              >
+                <v-container fill-height>
+                  <v-row
+                    align="center"
+                    class="white--text mx-auto"
+                    justify="center"
                   >
-                    <!-- <span
+                    <v-col
+                      class="light-blue--text text-center mb-3"
+                      cols="12"
+                      tag="h1"
+                    >
+                    
+                    <br>
+                      <span
+                        :class="[
+                        //sm以下ならの三項演算子
+                          $vuetify.breakpoint.smAndDown
+                            ? 'display-3'
+                            : 'display-4'
+                        ]"
+                        class="font-weight-black"
+                      >
+                        KANSEN
+                      </span>  
+                      <br>
+                      <span
                       class="font-weight-light"
                       :class="[$vuetify.breakpoint.smAndDown ? 'display-1' : 'display-2']"
                     >
-                      WELCOME TO
-                    </span> -->
-
-                    <br>
-
-                    <span
-                      :class="[$vuetify.breakpoint.smAndDown ? 'display-3': 'display-4']"
-                      class="font-weight-black"
-                    >
-                      KANSEN
+                     スポーツ観戦を楽しもう！スポーツ検索サイト
                     </span>
-
-                  </v-col>
-
-                  <v-btn
+                    </v-col>
+                    <v-col
+                      class="light-blue--text text-center mt-3"
+                      cols="3"
+                      tag="h1"
+                    >
+                      <v-select
+                        class="light-blue--text text-center"
+                        :items="sports"
+                        label="スポーツで探す"
+                        v-model="parameters.sports"
+                        outlined
+                      ></v-select>
+                    </v-col>
+                    <v-col
+                      class="light-blue--text text-center mt-3"
+                      cols="3"
+                      tag="h1"
+                    >
+                      <v-select
+                        :items="stadium"
+                        label="スタジアムで探す"
+                        v-model="parameters.stadium"
+                        outlined
+                      ></v-select>
+                    </v-col>
+                    <v-col
+                      class="light-blue--text text-center mt-3"
+                      cols="3"
+                      tag="h1"
+                    >
+                      <v-select
+                        :items="level"
+                        label="レベルで探す"
+                        v-model="parameters.level"
+                        outlined
+                      ></v-select>
+                    </v-col>
+                    <v-col
+                      class="light-blue--text text-center v"
+                      cols="3"
+                      tag="h1"
+                    >
+              <v-menu
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="290px"
+             >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="picker"
+            label="日程で探す"
+            readonly
+            outlined
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="picker" @input="menu = false"></v-date-picker>
+      </v-menu>
+                    </v-col>
+                    <v-btn
+                      btn
+                      rounded
+                      color="primary"
+                      dark
+                      w-25
+                      my-4
+                      type="submit"
+                      @click="$vuetify.goTo('#games')"
+                    >
+                      Find Games!
+                    </v-btn>
+                    <!-- <v-btn
                     class="align-self-end"
                     fab
                     outlined
-                    @click="$vuetify.goTo('#about-me')"
+                    @click="$vuetify.goTo('#games')"
                   >
                     <v-icon>mdi-chevron-double-down</v-icon>
-                  </v-btn>
-                </v-row>
-              </v-container>
+                  </v-btn> -->
+                  </v-row>
+                </v-container>
+              </v-form>
             </v-theme-provider>
           </v-img>
         </v-row>
       </section>
 
-      <section id="about-me">
+      <section id="games" class="grey lighten-3">
         <div class="py-12"></div>
 
         <v-container class="text-center">
-          <h2 class="display-2 font-weight-bold mb-3">ABOUT ME</h2>
+          <h2 class="display-2 font-weight-bold mb-3">GAMES</h2>
 
           <v-responsive
             class="mx-auto mb-8"
@@ -72,262 +155,59 @@
             class="mx-auto title font-weight-light mb-8"
             max-width="720"
           >
-            Vuetify is the #1 component library for Vue.js and has been in active development since 2016. The goal of the project is to provide users with everything that is needed to build rich and engaging web applications using the Material Design specification. It accomplishes that with a consistent update cycle, Long-term Support (LTS) for previous versions, responsive community engagement, a vast ecosystem of resources and a dedication to quality components.
           </v-responsive>
-
-          <v-avatar
-            class="elevation-12 mb-12"
-            size="128"
-          >
-            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
-          </v-avatar>
-
-          <div></div>
-
-          <v-btn
-            color="grey"
-            href="https://vuetifyjs.com"
-            outlined
-            large
-          >
-            <span class="grey--text text--darken-1 font-weight-bold">
-              Vuetify Documentation
-            </span>
-          </v-btn>
-        </v-container>
-
-        <div class="py-12"></div>
-      </section>
-
-      <section
-        id="features"
-        class="grey lighten-3"
-      >
-        <div class="py-12"></div>
-
-        <v-container class="text-center">
-          <h2 class="display-2 font-weight-bold mb-3">VUETIFY FEATURES</h2>
-
-          <v-responsive
-            class="mx-auto mb-12"
-            width="56"
-          >
-            <v-divider class="mb-1"></v-divider>
-
-            <v-divider></v-divider>
-          </v-responsive>
-
           <v-row>
-            <v-col
-              v-for="({ icon, title, text }, i) in features"
-              :key="i"
-              cols="12"
-              md="4"
-            >
-              <v-card
-                class="py-12 px-4"
+          <v-col
+            cols="12"
+            md="4"
+            v-for="game in games"
+            v-bind:key="game.gameId"
+          >
+            <v-card
+            class="py-12 px-4"
                 color="grey lighten-5"
                 flat
-              >
-                <v-theme-provider dark>
-                  <div>
-                    <v-avatar
-                      color="primary"
-                      size="88"
-                    >
-                      <v-icon
-                        large
-                        v-text="icon"
-                      ></v-icon>
-                    </v-avatar>
-                  </div>
-                </v-theme-provider>
-
-                <v-card-title
-                  class="justify-center font-weight-black text-uppercase"
-                  v-text="title"
-                ></v-card-title>
-
-                <v-card-text
-                  class="subtitle-1"
-                  v-text="text"
                 >
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-
-        <div class="py-12"></div>
-      </section>
-
-      <section id="stats">
-        <v-parallax
-          :height="$vuetify.breakpoint.smAndDown ? 700 : 500"
-          src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
-        >
-          <v-container fill-height>
-            <v-row class="mx-auto">
-              <v-col
-                v-for="[value, title] of stats"
-                :key="title"
-                cols="12"
-                md="3"
+              <v-card-title
+              class="justify-center font-weight-black text-uppercase"
               >
-                <div class="text-center">
-                  <div
-                    class="display-3 font-weight-black mb-4"
-                    v-text="value"
-                  ></div>
-
-                  <div
-                    class="title font-weight-regular text-uppercase"
-                    v-text="title"
-                  ></div>
-                </div>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-parallax>
-      </section>
-
-      <section id="blog">
-        <div class="py-12"></div>
-
-        <v-container>
-          <h2 class="display-2 font-weight-bold mb-3 text-uppercase text-center">Blog</h2>
-
-          <v-responsive
-            class="mx-auto mb-12"
-            width="56"
-          >
-            <v-divider class="mb-1"></v-divider>
-
-            <v-divider></v-divider>
-          </v-responsive>
-
-          <v-row>
-            <v-col
-              v-for="({ src, text, title }, i) in articles"
-              :key="i"
-              cols="12"
-              md="4"
-            >
-              <v-img
-                :src="src"
-                class="mb-4"
-                height="275"
-                max-width="100%"
-              ></v-img>
-
-              <h3
-                class="font-weight-black mb-4 text-uppercase"
-                v-text="title"
-              ></h3>
-
-              <div
-                class="title font-weight-light mb-5"
-                v-text="text"
-              ></div>
-
-              <v-btn
-                class="ml-n4 font-weight-black"
-                text
-              >
-                Continue Reading
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-
-        <div class="py-12"></div>
-      </section>
-
-      <v-sheet
-        id="contact"
-        color="#333333"
-        dark
-        tag="section"
-        tile
-      >
-        <div class="py-12"></div>
-
-        <v-container>
-          <h2 class="display-2 font-weight-bold mb-3 text-uppercase text-center">Contact Me</h2>
-
-          <v-responsive
-            class="mx-auto mb-12"
-            width="56"
-          >
-            <v-divider class="mb-1"></v-divider>
-
-            <v-divider></v-divider>
-          </v-responsive>
-
-          <v-theme-provider light>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  flat
-                  label="Name*"
-                  solo
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12">
-                <v-text-field
-                  flat
-                  label="Email*"
-                  solo
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12">
-                <v-text-field
-                  flat
-                  label="Subject*"
-                  solo
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12">
-                <v-textarea
-                  flat
-                  label="Message*"
-                  solo
-                ></v-textarea>
-              </v-col>
-
-              <v-col
-                class="mx-auto"
-                cols="auto"
-              >
-                <v-btn
-                  color="accent"
-                  x-large
+                {{ game.homeTeamId }} VS {{ game.awayTeamId }}
+              </v-card-title>
+              <v-card-text
+              class="subtitle-1"
+                  >
+                {{ game.gameDate }} at {{ game.stadiumId }}
+              </v-card-text>
+              
+              <router-link
+                v-bind:to="{ name: 'gameDetail', params: { id: game.id } }"
                 >
-                  Submit
+                <v-btn color="warning" dark>
+                  <span>詳細</span>
                 </v-btn>
-              </v-col>
-            </v-row>
-          </v-theme-provider>
+                  </router-link
+              >
+              <!-- <router-link v-bind:to="{ name : 'gameDetail', params : { id: game.id }}"></router-link> -->
+            </v-card>
+            </v-col>
+          </v-row>
+
+          <div></div>
         </v-container>
 
         <div class="py-12"></div>
-      </v-sheet>
+      </section>
     </v-content>
 
-    <v-footer
-      class="justify-center"
-      color="#292929"
-      height="100"
-    >
-      <div class="title font-weight-light grey--text text--lighten-1 text-center">
-        &copy; {{ (new Date()).getFullYear() }} — Vuetify, LLC — Made with 💜 by John Leider
+    <v-footer class="justify-center" color="#292929" height="100">
+      <div
+        class="title font-weight-light grey--text text--lighten-1 text-center"
+      >
+        &copy; {{ new Date().getFullYear() }} — Vuetify, LLC — Made with 💜 by
+        John Leider
       </div>
     </v-footer>
   </v-app>
-
 </template>
 <script>
 // import swal from "sweetalert";
@@ -343,9 +223,10 @@ export default {
         sports: "",
         level: "",
         stadium: "",
-        league: "",
+        league: ""
         // picker:""
       },
+      menu: false,
       games: [],
       sports: ["", "soccer", "baseball", "basketball", "rugby"],
       level: ["", "professional", "amature", "semi-pro"],
@@ -360,7 +241,7 @@ export default {
           level: this.parameters.level,
           league: this.parameters.league,
           stadium: this.parameters.stadium,
-          date:this.picker
+          date: this.picker
         },
         headers: {
           token: localStorage.getItem("jwt")

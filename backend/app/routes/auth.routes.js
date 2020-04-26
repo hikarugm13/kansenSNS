@@ -18,6 +18,13 @@ module.exports = function (app) {
 
   app.post("/api/auth/signin", controller.signin);
   app.get("/api/auth/user", [authJwt.verifyToken], userController.find);
+
+  app.post(
+    "/api/auth/updateProfile",
+    [authJwt.verifyToken],
+    userController.updateProfile
+  );
+
   app.get(
     "/api/auth/findGame",
     // [authJwt.verifyToken],
@@ -54,7 +61,7 @@ module.exports = function (app) {
     reviewController.deleteReview
   );
   app.get(
-    "/api/auth/showReview",
+    "/api/auth/getReview",
     // [authJwt.verifyToken],
     reviewController.getReview
   );

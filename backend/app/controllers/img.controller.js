@@ -27,7 +27,7 @@ exports.postImage = (req, res) => {
       //アップロード失敗した場合
       res.json({
         status: "error",
-        error: "fail to uplord image",
+        error: "fail to upload image",
       });
       console.log(err);
     } else {
@@ -36,7 +36,7 @@ exports.postImage = (req, res) => {
       res.json({
         status: "sucess",
         // ファイル名を返す
-        path: res.req.file.path
+        path: res.req.file.path,
       });
     }
   });

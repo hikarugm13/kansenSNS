@@ -93,6 +93,28 @@ const routes = [
     }
   },
   {
+    path: "/profile/:id",
+    name: "profile",
+    props: true,
+    component: () => import("../views/Profile.vue"),
+    meta: {
+      requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (localStorage.getItem("jwt") == null) {
+          next({
+            path: "/"
+          });
+        } else {
+          next();
+        }
+      } else {
+        next();
+      }
+    }
+  },
+  {
     path: "/myCalendar/:id",
     name: "myCalendar",
     props: true,

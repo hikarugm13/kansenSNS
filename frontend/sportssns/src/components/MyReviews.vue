@@ -2,9 +2,8 @@
 <v-container>
   <v-row>
     <v-col
-      v-for="review in reviews"
-      v-bind:key="review.gameId"
-          cols=4
+      v-for="review in reviews" v-bind:key="review.gameId"
+      cols=4
     >
     <v-card
     class="mx-auto"
@@ -41,31 +40,41 @@
 </template>
 
 <script>
-import axios from "axios";
-
+import axios from 'axios';
 export default {
-  data() {
-    return {
-      reviews: [],
-      props: ["id"],
-      
-    };
+  data(){
+  return{
+    reviews:[],
+  }
+  }
+  ,
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    }
+  },
+    components: {
   },
   mounted() {
-    console.log(this.$route.params["id"]);
-    axios
-      .get("http://localhost:8080/api/auth/getReview", {
-        params: {
-          id: this.$route.params["id"],
-        },
-        headers: {
-          token: localStorage.getItem("jwt"),
-        },
-      })
-      .then((response) => {
-        this.reviews = response.data.review;
-        console.log(this.reviews);
-      });
+axios.get('http://localhost:8080/api/auth/showMyReview',
+        {
+          params:{
+            id: this.currentUser.id },
+          headers: {
+            token: localStorage.getItem("jwt")
+          }
+        
+        }
+        
+      ).then(response=>{
+      this.reviews = response.data.review;
+      // console.log(this.reviews)  
+       })
+    if (!this.currentUser) {
+      this.$router.push('/login');
+    }
+      const user = this.currentUser
+      this.$store.dispatch("myteam/addTeam",user)
   },
 };
 </script>

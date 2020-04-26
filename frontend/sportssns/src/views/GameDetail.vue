@@ -1,41 +1,64 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 offset-lg-3 col-sm-10 offset-sm-1">
-        <h1>GAME DETAIL</h1>
-        <router-link
+<v-app>
+  <v-content>
+    <v-container>
+      <v-row>
+        <v-col cols="12">
+          <v-card
+          color="white"
+            dark
+            
+          >
+   <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="headline mb-1">
+          <router-link
           v-bind:to="{
             name: 'teamInfo',
-            params: { teamName: this.game.homeTeamId }
-          }"
-          >{{ game.homeTeamId }}</router-link
+            params: { teamName: game.homeTeamId }
+          }" 
+          class="black--text"
+          ><h1 >{{ game.homeTeamId }}</h1></router-link
         >
-        <p>VS</p>
+        <h2 class="red--text">VS</h2>
         <router-link
           v-bind:to="{
             name: 'teamInfo',
             params: { teamName: game.awayTeamId }
           }"
-          v-if="currentUser"
-          >{{ game.awayTeamId }}
+          class="black--text"
+          ><h1>{{ game.awayTeamId }}</h1>
         </router-link>
-        <p class="card-text">{{ game.gameDate }} at {{ game.stadiumId }}</p>
-        <router-link
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          <h2 class="card-text grey--text" >{{ game.gameDate }} at {{ game.stadiumId }}</h2></v-list-item-subtitle>
+              <v-list-item-subtitle>
+              <v-btn
           v-bind:to="{ name: 'postReview', params: { id: game.id } }"
-          class="btn btn-primary"
+          color="success" rounded
           v-if="currentUser"
           >REVIEWを書く
-        </router-link>
-        <router-link
+        </v-btn>
+        <v-btn
           v-bind:to="{ name: 'gameChat', params: { gameId: game.id } }"
-          class="btn btn-primary"
+          color="indigo"
+          rounded
           v-if="currentUser"
           >Chatする
-        </router-link>
+        </v-btn>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+
+    </v-list-item>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
         <gameReviews :id="game.id" />
-      </div>
-    </div>
-  </div>
+
+  </v-content>
+</v-app>
+
 </template>
 
 <script>
@@ -57,6 +80,7 @@ export default {
     };
   },
   mounted() {
+     console.log(this.id)
     axios
       .get("http://localhost:8080/api/auth/findGameDetail", {
         params: {

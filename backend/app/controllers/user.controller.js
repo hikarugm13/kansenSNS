@@ -14,10 +14,33 @@ exports.find = (req, res) => {
         title: "login success",
         user: {
           email: user.email,
-          name: user.username,
-          password: user.password
+          username: user.username,
+          password: user.password,
+          gender: user.gender,
+          profile: user.profile,
+          image: user.image,
         }
       });
     });
   
 };
+
+exports.updateProfile = (req, res) => {
+  console.log(req)
+  User.update({
+    email: req.body.email,
+    username: req.body.username,
+    gender: req.body.gender,
+    profile: req.body.profile,
+    image: req.body.image
+  },
+    {
+      where: {
+        id: req.id,
+      },
+    }
+  ).catch((err) => {
+    res.status(500).send({ message: err.message });
+  });
+  return res.send({ message: "your profile was updated successfully!" });
+}

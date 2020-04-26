@@ -5,6 +5,7 @@ exports.postReview = (req, res) => {
   Review.create({
     gameId: req.body.gameId,
     userId: req.body.userId,
+    userName: req.body.userName,
     review: req.body.review,
     image: req.body.image,
   }).catch((err) => {
