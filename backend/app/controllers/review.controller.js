@@ -50,6 +50,20 @@ exports.deleteReview = (req, res) => {
 };
 
 
+exports.getAllReview = (req, res) => {
+  //  console.log(req.headers);
+  Review.findAll({
+    limit: 10,
+    order: [['createdAt', 'ASC']],
+  }).then((review) => {
+    if (!review) {
+      return res.status(404).send({ message: "Review Not found." });
+    }
+    return res.status(200).json({
+      review,
+    });
+  });
+};
 exports.getReview = (req, res) => {
   //  console.log(req.headers);
   Review.findAll({

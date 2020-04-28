@@ -1,13 +1,12 @@
 <template>
 <v-app>
-  <v-content>
-    <v-container>
+  <v-content class="grey lighten-4">
+    <v-container >
       <v-row>
         <v-col cols="12">
           <v-card
-          color="white"
+          class="white lighten-4 p-5"
             dark
-            
           >
    <v-list-item three-line>
       <v-list-item-content>

@@ -27,4 +27,9 @@ db.favoriteTeam = require("../models/favoriteTeam.model.js")(
   sequelize,
   Sequelize
 );
+
+// db.user.hasMany(db.reviews, {
+// });
+// db.reviews.belongsTo(db.user, {
+// });
 module.exports = db;

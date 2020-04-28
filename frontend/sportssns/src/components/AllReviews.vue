@@ -1,16 +1,28 @@
 <template>
-<v-container class="">
-  <v-card
-  class="white lighten-4 p-5"> 
-   <h2 class="font-weight-black pb-3">この試合の観戦記</h2>
+    <v-card
+  class="white lighten-4 p-5"
+          shaped
+  > 
+            <h2 class="display-2 font-weight-bold mb-3">新着観戦記</h2>
+
+ <v-responsive
+            class="mx-auto mb-8"
+            width="56"
+          >
+            <v-divider class="mb-1"></v-divider>
+            <v-divider></v-divider>
+          </v-responsive>
+
   <v-row>
-    <v-col
+   <v-col
       v-for="review in reviews"
       v-bind:key="review.id"
           cols=4
     >
     <v-card
     class="mx-auto"
+    elevation="4"
+    tile
   >
     <v-img
       class="blue--text align-end"
@@ -18,7 +30,6 @@
       v-if="review.image"
       :src="require('../../public/'+ review.image)"
     >
-      <!-- <v-card-title>{{ review.userName }}</v-card-title> -->
     </v-img>
 
     <v-card-subtitle class="pb-0">{{ review.userName }}</v-card-subtitle>
@@ -29,8 +40,12 @@
 
     <v-card-actions>
       <v-btn
-        color="primary"
-        v-bind:to="{ name: 'reviewDetail', params: { id: review.id } }"
+                      rounded
+                      color="primary"
+                      dark
+                      w-25
+                      my-4
+        :to="{ name: 'reviewDetail', params: { id: review.id } }"
       >
         詳細
       </v-btn>
@@ -38,10 +53,10 @@
   </v-card>
       </v-col>
   </v-row>
-  </v-card>
-  </v-container>
-</template>
+    </v-card>
+    
 
+</template>
 <script>
 import axios from "axios";
 
@@ -50,16 +65,12 @@ export default {
     return {
       reviews: [],
       props: ["id"],
-      
+
     };
   },
   mounted() {
-    console.log(this.$route.params["id"]);
     axios
-      .get("http://localhost:8080/api/auth/getReview", {
-        params: {
-          id: this.$route.params["id"],
-        },
+      .get("http://localhost:8080/api/auth/getAllReview", {
         headers: {
           token: localStorage.getItem("jwt"),
         },

@@ -1,9 +1,43 @@
 <template>
-  <div>
-    <div class="card col-lg-6 offset-lg-3 col-sm-10 offset-sm-1">
-      <img class="card-img-top" src="" alt="REVIEW" />
-      <div class="card-body">
-        <h5 class="card-title">{{ review.userName }}</h5>
+  <v-container>
+    <v-row justify="start" align="center" class="white ma-3 pa-3">
+      <v-col cols="3">
+        <v-img
+          class="blue--text align-end"
+          height="100px"
+          width="100%"
+          :src="require('../../public/' + user.image)"
+        ></v-img>
+      </v-col>
+        <v-col>
+        <h5>{{ review.userName }}</h5>
+      </v-col>
+      <v-col cols="12">
+        <input
+          label="File input"
+          filled
+          show-size
+          style="display: none"
+          type="file"
+          ref="input"
+          accept="image/png, image/jpeg, image/bmp"
+          name="file"
+          prepend-icon="mdi-camera"
+          @change="onFileChange"
+        />
+        <v-img
+          class="blue--text align-end"
+          height="200px"
+          v-if="review.image"
+          :src="require('../../public/' + review.image)"
+        >
+        </v-img>
+        <v-img height="125" width="125" v-if="url" :src="url"></v-img>
+        <v-btn color="primary" v-if="editable" @click="btnclick"
+          >画像を変更する</v-btn
+        >
+      </v-col>
+      <v-col cols="12">
         <p v-if="!editable" class="card-text">{{ review.review }}</p>
         <v-textarea
           v-if="editable"
@@ -14,32 +48,8 @@
           value=""
           v-model="review.review"
         ></v-textarea>
-
-        <div>
-          <input
-            label="File input"
-            filled
-            show-size
-            style="display: none"
-            type="file"
-            ref="input"
-            accept="image/png, image/jpeg, image/bmp"
-            name="file"
-            prepend-icon="mdi-camera"
-            @change="onFileChange"
-          />
-          <v-img
-            class="blue--text align-end"
-            height="200px"
-            v-if="review.image"
-            :src="require('../../public/' + review.image)"
-          >
-          </v-img>
-          <v-img height="125" width="125" v-if="url" :src="url"></v-img>
-          <v-btn color="primary" v-if="editable" @click="btnclick"
-            >画像を変更する</v-btn
-          >
-        </div>
+      </v-col>
+      <v-col cols="12">
         <v-btn
           v-if="!editable && currentUser"
           small
@@ -55,10 +65,9 @@
           >EDIT</v-btn
         >
         <v-btn v-if="editable" class="mr-4" @click="editReview">submit</v-btn>
-        <!-- <router-link v-bind:to="{ name : 'gameDetail', params : { id: game.id }}"></router-link> -->
-      </div>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -71,6 +80,7 @@ export default {
       url: null,
       imageFile: null,
       review: {},
+      user:{},
       editable: false,
     };
   },
@@ -212,7 +222,21 @@ export default {
       .then((response) => {
         this.review = response.data.review;
         console.log(this.review);
-      });
+      })
+
+        axios
+      .get("http://localhost:8080/api/auth/user", {
+        params: {
+          id: this.review.userId,
+        },
+        headers: {
+          token: localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        this.user = res.data.user;
+        console.log(this.user)
+      })
   },
 };
 </script>

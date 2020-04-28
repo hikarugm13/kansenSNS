@@ -1,8 +1,13 @@
 <template>
 <v-container>
+    <v-card
+  class="white lighten-4 p-5"
+          shaped
+  > 
+  <h2 class="font-weight-black pb-3">観戦記</h2>
   <v-row>
     <v-col
-      v-for="review in reviews" v-bind:key="review.gameId"
+      v-for="review in reviews" v-bind:key="review.id"
       cols=4
     >
     <v-card
@@ -14,14 +19,12 @@
       v-if="review.image"
       :src="require('../../public/'+ review.image)"
     >
-      <v-card-title>{{ review.userName }}</v-card-title>
+      <!-- <v-card-title>{{ review.userName }}</v-card-title> -->
     </v-img>
 
-    <v-card-subtitle class="pb-0">{{ review.review }}</v-card-subtitle>
+    <v-card-subtitle class="pb-0">{{ review.userName }}</v-card-subtitle>
 
     <v-card-text class="text--primary">
-      <div>{{ review.review }}</div>
-
       <div>{{ review.review }}</div>
     </v-card-text>
 
@@ -36,6 +39,7 @@
   </v-card>
       </v-col>
   </v-row>
+    </v-card>
   </v-container>
 </template>
 

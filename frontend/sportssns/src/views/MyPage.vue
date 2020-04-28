@@ -1,10 +1,15 @@
 <template>
   <div class="grey lighten-4">
     <v-container>
+       <v-card
+          class="white lighten-4 p-5"
+          shaped
+          >
       <v-row
          justify="start" align-content="center"
-        class="white ma-3 pa-3"
-        style="height: 300px;"
+        class=" ma-3 pa-3"
+        style="height: 300px;" 
+        align="center"
         
       >
         <v-col cols="3">
@@ -21,7 +26,7 @@
         </v-col>
         
         <v-col cols="12">
-          <h5 v-for="team in favoriteTeam" v-bind:key="team.teamId">
+          <h5 v-for="team in favoriteTeam" v-bind:key="team.id">
             My Team:{{ team.teamName }}
           </h5>
         </v-col>
@@ -46,8 +51,9 @@
       </v-btn>
         </v-col>
       </v-row>
-      <myReviews />
+       </v-card>
     </v-container>
+      <myReviews />
   </div>
 </template>
 

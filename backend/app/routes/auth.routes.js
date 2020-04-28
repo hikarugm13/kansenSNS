@@ -65,6 +65,12 @@ module.exports = function (app) {
     // [authJwt.verifyToken],
     reviewController.getReview
   );
+
+  app.get(
+    "/api/auth/getAllReview",
+    // [authJwt.verifyToken],
+    reviewController.getAllReview
+  );
   app.get(
     "/api/auth/showMyReview",
     [authJwt.verifyToken],
