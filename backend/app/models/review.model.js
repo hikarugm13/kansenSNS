@@ -1,10 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
   const Review = sequelize.define("reviews", {
     gameId: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     userId: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     userName: {
       type: Sequelize.STRING,

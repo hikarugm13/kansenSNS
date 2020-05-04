@@ -1,10 +1,9 @@
 <template>
   <v-container class="">
     <v-card shaped class="white lighten-4 p-5">
-      <h2 class="font-weight-black pb-3">この試合の観戦記</h2>
+      <h2 class="font-weight-black pb-3">この会場の観戦記</h2>
       <v-row>
-        <v-col v-for="review in reviews" v-bind:key="review.id" cols="4" justify="center" 
-        align="center">
+        <v-col v-for="review in reviews" v-bind:key="review.id" cols="4">
           <v-card class="mx-auto">
             <v-img
               class="blue--text align-end"
@@ -45,22 +44,34 @@ export default {
   data() {
     return {
       reviews: [],
-      props: ["id"],
+      props: ["stadiumId"],
     };
   },
   mounted() {
-    console.log(this.$route.params["id"]);
+    console.log(this.$route.params["stadiumId"]);
     axios
-      .get("http://localhost:8080/api/auth/getGameReview", {
+      .get("http://localhost:8080/api/auth/findStadiumReview", {
         params: {
-          id: this.$route.params["id"],
+          id: this.$route.params["stadiumId"],
         },
         headers: {
           token: localStorage.getItem("jwt"),
         },
       })
       .then((response) => {
-        this.reviews = response.data.review;
+        console.log(response.data.stadium);
+        for (let i = 0; i < response.data.stadium.length; i++) {
+          for (let j = 0; j < response.data.stadium[i].reviews.length; j++) {
+            this.reviews.push({
+              stadiumId: response.data.stadium[i].reviews[j].stadiumId,
+              userId: response.data.stadium[i].reviews[j].userId,
+              userName: response.data.stadium[i].reviews[j].userName,
+              review: response.data.stadium[i].reviews[j].review,
+              image: response.data.stadium[i].reviews[j].image,
+              createdAt: response.data.stadium[i].reviews[j].createdAt,
+            });
+          }
+        }
         console.log(this.reviews);
       });
   },

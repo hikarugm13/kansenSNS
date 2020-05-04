@@ -4,7 +4,8 @@
   class="white lighten-4 p-5"
           shaped
   > 
-  <h2 class="font-weight-black pb-3">観戦記</h2>
+  <h2 class="font-weight-black pb-3" justify="center" 
+        align="center">My観戦記</h2>
   <v-row>
     <v-col
       v-for="review in reviews" v-bind:key="review.id"
@@ -12,6 +13,8 @@
     >
     <v-card
     class="mx-auto"
+    hover
+
   >
     <v-img
       class="blue--text align-end"
@@ -22,7 +25,7 @@
       <!-- <v-card-title>{{ review.userName }}</v-card-title> -->
     </v-img>
 
-    <v-card-subtitle class="pb-0">{{ review.userName }}</v-card-subtitle>
+     <v-card-subtitle class="pb-0">{{review.game.homeTeamId}} VS {{review.game.awayTeamId}}</v-card-subtitle>
 
     <v-card-text class="text--primary">
       <div>{{ review.review }}</div>

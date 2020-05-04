@@ -49,10 +49,13 @@ exports.deleteReview = (req, res) => {
   return res.send({ message: "your deleted posted successfully!" });
 };
 
-
+//全てのレビューを取得
 exports.getAllReview = (req, res) => {
   //  console.log(req.headers);
   Review.findAll({
+    include: {
+      model: db.game
+    },
     limit: 10,
     order: [['createdAt', 'ASC']],
   }).then((review) => {
@@ -64,10 +67,15 @@ exports.getAllReview = (req, res) => {
     });
   });
 };
-exports.getReview = (req, res) => {
+
+// 該当試合のレビュー一覧取得
+exports.getGameReview = (req, res) => {
   //  console.log(req.headers);
   Review.findAll({
-    where: {
+    include: {
+      model: db.game
+    },
+        where: {
       gameId: req.query.id,
     },
   }).then((review) => {
@@ -79,11 +87,16 @@ exports.getReview = (req, res) => {
     });
   });
 };
+
+
 //自分のレビュー
 exports.getMyReview = (req, res) => {
 
   //  console.log(req.headers);
   Review.findAll({
+    include: {
+      model: db.game
+    },
     where: {
       userId: req.query.id,
     },
@@ -97,10 +110,13 @@ exports.getMyReview = (req, res) => {
   });
 };
 
-exports.getReviewDetail = (req, res) => {
+exports.showReviewDetail = (req, res) => {
   // console.log(req);
   //  console.log(req.headers);
   Review.findOne({
+    include: {
+      model: db.game
+    },
     where: {
       id: req.query.id,
     },

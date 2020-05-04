@@ -19,14 +19,14 @@
           ><v-subheader
             class="display-1"
             v-text="'プロフィール画像'"
-          ></v-subheader
-        >
-        <v-img
-      class="blue--text align-end"
-      height="200px"
-      v-if="user.image"
-      :src="require('../../public/'+ user.image)"
-    >  </v-img>
+          ></v-subheader>
+          <v-img
+            class="blue--text align-end"
+            height="200px"
+            v-if="user.image"
+            :src="require('../../public/' + user.image)"
+          >
+          </v-img>
         </v-col>
         <v-col cols="6">
           <v-file-input
@@ -37,13 +37,8 @@
             name="file"
             prepend-icon="mdi-camera"
             @change="onFileChange"
-        />
-        <v-img
-         height="125"
-         width="125"
-        v-if="url"
-        :src="url"
-        ></v-img>
+          />
+          <v-img height="125" width="125" v-if="url" :src="url"></v-img>
         </v-col>
 
         <v-col cols="6"
@@ -134,22 +129,29 @@
             value=""
           ></v-textarea>
         </v-col>
-        <v-col>
+
+      </v-row>
+      <v-row justify="center" 
+        align="center">
           <v-btn class="mr-4" @click="editReview">submit</v-btn>
-        </v-col>
+          <backButton />
       </v-row>
     </v-container>
   </v-form>
 </template>
 
-<script lang="ts">
+<script>
 import axios from "axios";
 import swal from "sweetalert";
+import backButton from "@/components/backButton";
 
 export default {
+  components: {
+    backButton,
+  },
   data() {
     return {
-      url:null,
+      url: null,
       imageFile: null,
       //選択肢
       sports: ["サッカー", "野球", "バスケットボール", "ラグビー"],
@@ -184,7 +186,7 @@ export default {
       console.log(e);
       this.imageFile = e;
       this.url = URL.createObjectURL(this.imageFile);
-      console.log(this.url)
+      console.log(this.url);
     },
     async editReview() {
       if (this.imageFile != null) {

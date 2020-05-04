@@ -1,6 +1,6 @@
 <template>
-  <v-row class="fill-height">
-    <v-col>
+  <v-row  justify="center" fillheight>
+    <v-col cols="8" >
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
@@ -94,6 +94,13 @@
               >
                 Cancel
               </v-btn>
+              <v-btn
+                text
+                color="secondary"
+                :to="{ name: 'gameDetail', params: { id: selectedEvent.id}}"
+              >
+                詳細
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -183,21 +190,22 @@ import axios from 'axios';
         }
         
       ).then(response=>{
+        
+        console.log(this.game)
         if(this.events.length!=response.data.game.length){
-        console.log(response.data.game.length)
         for(let i=0;i<response.data.game.length;i++){
           this.events.push({
-            name:response.data.game[i].sportsName,
-            start:response.data.game[i].gameDate,
-            end: response.data.game[i].gameDate,
+            name:response.data.game[i].homeTeamId + " vs " +response.data.game[i].awayTeamId ,
+            start:response.data.game[i].startTime,
+            end: response.data.game[i].endTime,
             color: this.colors[this.rnd(0, this.colors.length - 1)],
+            id : response.data.game[i].id
           }) 
-          // console.log(this.events)
+
         }
         }
        })
        }
-      
     },
     methods: {
       viewDay ({ date }) {

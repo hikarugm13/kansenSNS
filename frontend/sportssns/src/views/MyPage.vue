@@ -3,7 +3,7 @@
     <v-container>
        <v-card
           class="white lighten-4 p-5"
-          shaped
+          tile
           >
       <v-row
          justify="start" align-content="center"

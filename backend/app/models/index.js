@@ -23,13 +23,16 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.game = require("../models/game.model.js")(sequelize, Sequelize);
 db.reviews = require("../models/review.model.js")(sequelize, Sequelize);
 db.teams = require("../models/team.model.js")(sequelize, Sequelize);
+db.stadiums = require("../models/stadium.model.js")(sequelize, Sequelize);
 db.favoriteTeam = require("../models/favoriteTeam.model.js")(
   sequelize,
   Sequelize
 );
 
-// db.user.hasMany(db.reviews, {
-// });
-// db.reviews.belongsTo(db.user, {
-// });
+db.game.hasMany(db.reviews)
+db.reviews.belongsTo(db.game);
+
+//userはbelongstoManyっぽい
+
+
 module.exports = db;

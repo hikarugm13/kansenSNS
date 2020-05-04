@@ -17,6 +17,7 @@ checkDuplicateFavoriteTeam = (req, res, next) => {
       });
       return;
     }
+    next()
   });
 };
 

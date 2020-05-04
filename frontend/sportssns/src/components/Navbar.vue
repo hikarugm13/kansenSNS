@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-toolbar dense color="light-blue accent-3">
+    <v-toolbar dense color="light-blue accent-3" height="70">
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
       <h2 class="my-2"><router-link class="white--text" to="/findGame" >KANSEN</router-link></h2>

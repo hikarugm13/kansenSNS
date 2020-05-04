@@ -1,16 +1,32 @@
 <template>
-  <v-container>
+  <v-container> 
+       <v-card
+      class="white lighten-4 p-5 m-5 text-center"
+      tile
+      hover
+    >
     <v-row justify="start" align="center" class="white ma-3 pa-3">
-      <v-col cols="3">
+
+      <v-col cols="12">
+        <h2 class="card-title">
+          <router-link
+                  v-bind:to="{ name: 'gameDetail', params: { id: review.game.id } }"
+                >
+          {{ review.game.homeTeamId }} VS {{  review.game.awayTeamId }}
+          </router-link>
+        </h2>
+        <p class="card-text">{{  review.game.gameDate }} at {{  review.game.stadiumId }}</p>
+      </v-col>
+      <v-col cols="2">
         <v-img
           class="blue--text align-end"
-          height="100px"
+          height="100%"
           width="100%"
           :src="require('../../public/' + user.image)"
         ></v-img>
       </v-col>
         <v-col>
-        <h5>{{ review.userName }}</h5>
+        <h5 class="text-left">{{ review.userName }}</h5>
       </v-col>
       <v-col cols="12">
         <input
@@ -53,20 +69,22 @@
         <v-btn
           v-if="!editable && currentUser"
           small
-          color="error"
-          @click="deleteReview"
-          >DELETE</v-btn
-        >
-        <v-btn
-          v-if="!editable && currentUser"
-          small
           color="primary"
           @click="edit"
           >EDIT</v-btn
         >
+         <v-btn
+          v-if="!editable && currentUser"
+          small
+          class="m-2"
+          color="error"
+          @click="deleteReview"
+          >DELETE</v-btn
+        >
         <v-btn v-if="editable" class="mr-4" @click="editReview">submit</v-btn>
       </v-col>
     </v-row>
+       </v-card>
   </v-container>
 </template>
 <script>

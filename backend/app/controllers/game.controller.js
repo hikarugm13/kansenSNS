@@ -42,6 +42,48 @@ exports.findFavoriteTeamGames = (req, res) => {
     });
   });
 };
+// 該当チームのレビュー一覧取得
+exports.findTeamReview = (req, res) => {
+  const { Op } = require("sequelize");
+  console.log(req.query)
+  Game.findAll({
+    include: {
+      model: db.reviews
+    },
+    where: {
+      [Op.or]: [
+        { homeTeamId: req.query.id },
+        { awayTeamId: req.query.id }
+      ]
+    }
+  }).then(game => {
+    if (!game) {
+      return res.status(404).send({ message: "Game Not found." });
+    }
+    return res.status(200).json({
+      game
+    });
+  });
+};
+// 該当スタジアムのレビュー一覧取得
+exports.findStadiumReview = (req, res) => {
+  console.log(req.query)
+  Game.findAll({
+    include: {
+      model: db.reviews
+    },
+    where: {
+      stadiumId:req.query.id
+    }
+  }).then(stadium => {
+    if (!stadium) {
+      return res.status(404).send({ message: "Game Not found." });
+    }
+    return res.status(200).json({
+      stadium
+    });
+  });
+};
 
 exports.findGameDetail = (req, res) => {
   //  console.log(req.headers);

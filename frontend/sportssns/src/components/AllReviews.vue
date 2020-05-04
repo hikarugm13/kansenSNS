@@ -21,7 +21,8 @@
     >
     <v-card
     class="mx-auto"
-    elevation="4"
+        hover
+
     tile
   >
     <v-img
@@ -32,7 +33,7 @@
     >
     </v-img>
 
-    <v-card-subtitle class="pb-0">{{ review.userName }}</v-card-subtitle>
+      <v-card-subtitle class="pb-0">{{review.game.homeTeamId}} VS {{review.game.awayTeamId}}</v-card-subtitle>
 
     <v-card-text class="text--primary">
       <div>{{ review.review }}</div>
@@ -40,7 +41,7 @@
 
     <v-card-actions>
       <v-btn
-                      rounded
+                    
                       color="primary"
                       dark
                       w-25

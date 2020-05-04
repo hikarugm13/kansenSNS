@@ -113,7 +113,7 @@
                     </v-col>
                     <v-btn
                       btn
-                      rounded
+                    
                       color="primary"
                       dark
                       w-25
@@ -170,7 +170,7 @@
                   {{ game.homeTeamId }} VS {{ game.awayTeamId }}
                 </v-card-title>
                 <v-card-text class="subtitle-1">
-                  {{ game.gameDate }} at {{ game.stadiumId }}
+                  {{ game.gameDate }} at {{ game.stadiumName }}
                 </v-card-text>
 
                 <router-link
@@ -203,12 +203,11 @@
       </section>
     </v-content>
 
-    <v-footer class="justify-center" color="#292929" height="100">
+    <v-footer class="justify-center light-blue accent-3"  height="100">
       <div
-        class="title font-weight-light grey--text text--lighten-1 text-center"
+        class="title font-weight-light white--text text--lighten-1 text-center"
       >
-        &copy; {{ new Date().getFullYear() }} — Vuetify, LLC — Made with 💜 by
-        John Leider
+KANSEN!
       </div>
     </v-footer>
   </v-app>

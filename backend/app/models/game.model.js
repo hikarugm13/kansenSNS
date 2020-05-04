@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     stadiumId: {
       type: Sequelize.STRING
+    },
+    stadiumName: {
+      type: Sequelize.STRING
     }
   });
 

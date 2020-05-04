@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <transition-group name="chat" tag="div" class="list content">
-      <section v-for="{ key, name, message } in chat" :key="key" class="item">
-        <!-- <div class="item-image"><img :src="image" width="40" height="40"></div> -->
+      <section v-for="{ key, name, message } in chat" :key="key" class="item" >
+        <div class="item-image"><img :src="'../../public/'+ user.image" width="40" height="40"></div>
         <div class="item-detail">
           <div class="item-name">{{ name }}</div>
           <div class="item-message">
@@ -67,7 +67,7 @@ export default {
       this.chat.push({
         key: snap.key,
         name: message.name,
-        // image: message.image,
+        image: message.image,
         message: message.message
       })
       this.scrollBottom()
@@ -79,7 +79,7 @@ export default {
         firebase.database().ref('game/' + this.gameId).push({
           message: this.input,
           name: this.currentUser.username,
-          // image: this.currentUser.photoURL
+          image: this.currentUser.image
         }, () => {
           this.input = '' // フォームを空にする
         })

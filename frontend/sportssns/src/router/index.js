@@ -71,6 +71,15 @@ const routes = [
     }
   },
   {
+    path: "/stadiumDetail/:stadiumId",
+    name: "stadiumDetail",
+    props: true,
+    component: () => import("../views/Stadium.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/myPage/:id",
     name: "myPage",
     props: true,

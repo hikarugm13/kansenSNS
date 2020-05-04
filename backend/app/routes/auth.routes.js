@@ -6,6 +6,9 @@ const reviewController = require("../controllers/review.controller");
 const imgController = require("../controllers/img.controller");
 const teamController = require("../controllers/team.controller");
 const favoriteTeamController = require("../controllers/favoriteTeam.controller");
+const stadiumController = require("../controllers/stadium.controller");
+
+//middleware
 const { authJwt } = require("../middleware");
 const { verifyFavoriteTeam } = require("../middleware");
 
@@ -29,6 +32,11 @@ module.exports = function (app) {
     "/api/auth/findGame",
     // [authJwt.verifyToken],
     gameController.find
+  );
+  app.get(
+    "/api/auth/findTeamReview",
+    // [authJwt.verifyToken],
+    gameController.findTeamReview
   );
   app.get(
     "/api/auth/findFavoriteTeamGames",
@@ -61,9 +69,9 @@ module.exports = function (app) {
     reviewController.deleteReview
   );
   app.get(
-    "/api/auth/getReview",
+    "/api/auth/getGameReview",
     // [authJwt.verifyToken],
-    reviewController.getReview
+    reviewController.getGameReview
   );
 
   app.get(
@@ -79,7 +87,7 @@ module.exports = function (app) {
   app.get(
     "/api/auth/showReviewDetail",
     // [authJwt.verifyToken],
-    reviewController.getReviewDetail
+    reviewController.showReviewDetail
   );
   app.get(
     "/api/auth/getTeamInfo",
@@ -96,5 +104,14 @@ module.exports = function (app) {
     // [authJwt.verifyToken],
     favoriteTeamController.findFavoriteTeam
   );
-  
+  app.get(
+    "/api/auth/findStadiumDetail",
+    // [authJwt.verifyToken],
+    stadiumController.findStadiumDetail
+  );
+  app.get(
+    "/api/auth/findStadiumReview",
+    // [authJwt.verifyToken],
+    gameController.findStadiumReview
+  );
 };

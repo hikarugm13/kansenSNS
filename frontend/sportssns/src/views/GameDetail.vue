@@ -6,7 +6,7 @@
         <v-col cols="12">
           <v-card
           class="white lighten-4 p-5"
-            dark
+            dark tile
           >
    <v-list-item three-line>
       <v-list-item-content>
@@ -30,18 +30,25 @@
         </router-link>
         </v-list-item-title>
         <v-list-item-subtitle>
-          <h2 class="card-text grey--text" >{{ game.gameDate }} at {{ game.stadiumId }}</h2></v-list-item-subtitle>
+          <h2 class="card-text grey--text" >{{ game.gameDate }} at <router-link
+          v-bind:to="{
+            name: 'stadiumDetail',
+            params: { stadiumId: game.stadiumId }
+          }" 
+          class="black--text"
+          >{{ game.stadiumName }}</router-link></h2></v-list-item-subtitle>
               <v-list-item-subtitle>
               <v-btn
           v-bind:to="{ name: 'postReview', params: { id: game.id } }"
-          color="success" rounded
+          color="success" 
+          class="mx-1"
           v-if="currentUser"
           >REVIEWを書く
         </v-btn>
         <v-btn
           v-bind:to="{ name: 'gameChat', params: { gameId: game.id } }"
           color="indigo"
-          rounded
+          
           v-if="currentUser"
           >Chatする
         </v-btn>
@@ -54,7 +61,6 @@
       </v-row>
     </v-container>
         <gameReviews :id="game.id" />
-
   </v-content>
 </v-app>
 
@@ -70,7 +76,7 @@ export default {
     }
   },
   components: {
-    gameReviews
+    gameReviews,
   },
   props: ["id"],
   data() {

@@ -1,8 +1,13 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 offset-lg-3 col-sm-10 offset-sm-1">
-        <h1>POST POST REVIEW</h1>
+  <v-container>
+    <v-card
+      class="white lighten-4 p-5 m-5 text-center"
+      tile
+      hover
+    >
+    <v-row>
+      <v-col cols="12">
+        <h1>レビューを投稿する</h1>
         <h2 class="card-title">
           {{ game.homeTeamId }} VS {{ game.awayTeamId }}
         </h2>
@@ -12,7 +17,7 @@
           <v-container fluid>
             <v-textarea
               name="input-7-1"
-              filled
+              outlined
               label="Review"
               auto-grow
               value=""
@@ -21,7 +26,8 @@
           </v-container>
           <v-file-input
             label="File input"
-            filled
+            dense
+            outlined
             show-size
             accept="image/png, image/jpeg, image/bmp"
             name="file"
@@ -37,21 +43,25 @@
           <!-- <textarea rows="10" cols="60" v-model="review.review" placeholder="Write your REVIEW!!"></textarea> -->
           <!-- <input type="image" v-model="review.image"> -->
           <v-btn class="mr-4" @click="submitClick">submit</v-btn>
+<backButton />
         </form>
-      </div>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
 // import reviews from "../components/GameReviews";
 import axios from "axios";
 import swal from "sweetalert";
+import backButton from "@/components/backButton";
+
 
 export default {
   props: ["id"],
   components: {
-    // reviews,
+        backButton
   },
   data() {
     return {

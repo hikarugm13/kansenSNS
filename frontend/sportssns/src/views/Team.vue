@@ -1,4 +1,33 @@
-<template>
+<template><v-app>
+  <v-content class="grey lighten-4">
+    <v-container >
+      <v-row>
+        <v-col cols="12">
+          <v-card
+          class="white lighten-4 p-5"
+            tile
+          >
+   <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="headline mb-1">
+ <h1 >{{ team.teamName }}</h1>
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          </v-list-item-subtitle>
+              <v-list-item-subtitle>
+        <v-btn small color="error" @click="registerMyTeam">MyTeamに登録</v-btn>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+        <teamReviews :id="team.id" />
+  </v-content>
+</v-app>
+
+<!-- 
   <div class="container">
     <header class="jumbotron">
       <h3>
@@ -12,26 +41,21 @@
     <p>
       <strong>Id:</strong>
       {{team.id}}
-    </p>
+    </p> -->
 
-    <!-- <strong>Authorities:</strong>
-    <div class="card col-lg-6 offset-lg-3 col-sm-10 offset-sm-1"  v-for="review in reviews" v-bind:key="review.gameId">
-  <img class="card-img-top" src="" alt="REVIEW">
-  <div class="card-body">
-    <h5 class="card-title">{{review.review}}</h5>
-    <p class="card-text">{{review.userName}} </p>
-    <router-link v-bind:to="{ name: 'reviewDetail', params: { id: review.id } }" class="btn btn-primary" >詳細</router-link>
-  </div> -->
-    <!-- </div> -->
-</div>
+<!-- 
+</div> -->
 </template>
 
 <script>
 import axios from 'axios';
 import swal from "sweetalert";
+import teamReviews from "@/components/TeamReviews";
 
 export default {
-
+ components: {
+    teamReviews,
+  },
   props: ["teamName"],
   data(){
   return{
