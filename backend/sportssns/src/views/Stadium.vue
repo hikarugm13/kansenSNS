@@ -67,7 +67,7 @@ let response = await this.$http.get("api/auth/findStadiumDetail",
       })
 
         this.stadium = response.data.stadium;
-        console.log(this.stadium);
+        // console.log(this.stadium);
 
   },
   methods: {},

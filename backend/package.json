@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js",
-    "build":"cd ../sportssns && npm run build",
-    "install-client":"cd ../sportssns && npm install",
+    "build":"cd sportssns && npm run build",
+    "install-client":"cd sportssns && npm install",
     "heroku-postbuild":"npm run install-cilent&&npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
