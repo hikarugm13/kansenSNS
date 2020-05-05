@@ -26,5 +26,5 @@ app.listen(PORT, () => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("sportssns/dist"));
+  app.use(express.static("sportssns/dist/"));
 }
