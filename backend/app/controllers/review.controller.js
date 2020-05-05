@@ -111,7 +111,7 @@ exports.getMyReview = (req, res) => {
 };
 
 exports.showReviewDetail = (req, res) => {
-  // console.log(req);
+  console.log(req.query.id);
   //  console.log(req.headers);
   Review.findOne({
     include: {
