@@ -32,8 +32,8 @@
             v-model="signUp.password"
           />
           <p>
-            Already have an account??
-            <router-link to="/">click here</router-link>
+            アカウントをお持ちですか?
+            <router-link :to="{name:'signIn'}">click here</router-link>
             <!-- Sign in button -->
             <center>
               <button class="btn btn-primary btn-block w-75 my-4" type="submit">

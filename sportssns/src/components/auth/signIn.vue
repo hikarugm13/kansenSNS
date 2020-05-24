@@ -23,7 +23,7 @@
             v-model="signIn.password"
           />
           <p>
-            Dont have an account??
+            アカウント作成はこちら！
             <router-link to="/signUp">click here</router-link>
           </p>
           <!-- Sign in button -->
@@ -57,12 +57,11 @@ export default {
         localStorage.setItem("user",JSON.stringify(user));
           // console.log(user)
         if (token) {
-          swal("Success", "Login Successful", "Error");
           this.$store.dispatch("auth/login",user)
-          this.$router.push("/findGame");
+          this.$router.push("/");
         }
       } catch (err) {
-        swal("Error", "Something Went Wrong", "error");
+        swal("Error", "ログイン失敗", "error");
         console.log(err.response);
       }
       

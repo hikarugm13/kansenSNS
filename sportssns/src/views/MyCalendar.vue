@@ -1,6 +1,6 @@
 <template>
-  <v-row  justify="center" fillheight>
-    <v-col cols="8" >
+  <v-row justify="center" fillheight>
+    <v-col cols="8">
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
@@ -16,11 +16,7 @@
           <v-spacer></v-spacer>
           <v-menu bottom right>
             <template v-slot:activator="{ on }">
-              <v-btn
-                outlined
-                color="grey darken-2"
-                v-on="on"
-              >
+              <v-btn outlined color="grey darken-2" v-on="on">
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>mdi-menu-down</v-icon>
               </v-btn>
@@ -54,7 +50,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -62,15 +57,8 @@
           :activator="selectedElement"
           offset-x
         >
-          <v-card
-            color="grey lighten-4"
-            min-width="350px"
-            flat
-          >
-            <v-toolbar
-              :color="selectedEvent.color"
-              dark
-            >
+          <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-toolbar :color="selectedEvent.color" dark>
               <v-btn icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
@@ -87,17 +75,13 @@
               <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                text
-                color="secondary"
-                @click="selectedOpen = false"
-              >
+              <v-btn text color="secondary" @click="selectedOpen = false">
                 Cancel
               </v-btn>
               <v-btn
                 text
                 color="secondary"
-                :to="{ name: 'gameDetail', params: { id: selectedEvent.id}}"
+                :to="{ name: 'gameDetail', params: { id: selectedEvent.id } }"
               >
                 詳細
               </v-btn>
@@ -137,7 +121,7 @@
     //   currentUser() {
     //   return this.$store.state.auth.user;
     // },
-    
+
       myteams(){
         return this.$store.state.myteam.teams
       },
@@ -179,18 +163,19 @@
       console.log(this.myteams)
       this.$refs.calendar.checkChange()
       for(let j=0;j<this.myteams.length;j++){
-        let response = await this.$http.get("api/auth/findFavoriteTeamGames",
-      //  axios.get('http://localhost:8080/api/auth/findFavoriteTeamGames',
+       let response = await this.$http.get('api/auth/findFavoriteTeamGames',
         {
           params:{
             teamName: this.$store.state.myteam.teams[j] },
           headers: {
             token: localStorage.getItem("jwt")
           }
-        
+
         }
-        
-      ) 
+
+      )
+console.log(response)
+this.game = response.data.game
         console.log(this.game)
         if(this.events.length!=response.data.game.length){
         for(let i=0;i<response.data.game.length;i++){
@@ -200,11 +185,9 @@
             end: response.data.game[i].endTime,
             color: this.colors[this.rnd(0, this.colors.length - 1)],
             id : response.data.game[i].id
-          }) 
-
+        })
         }
-        }
-
+       }
        }
     },
     methods: {

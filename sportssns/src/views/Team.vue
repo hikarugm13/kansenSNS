@@ -1,33 +1,39 @@
-<template><v-app>
-  <v-content class="grey lighten-4">
-    <v-container >
+<template>
+  <!-- <v-app> -->
+  <!-- <v-content class="grey lighten-4"> -->
+  <div class="grey lighten-4">
+    <v-container>
       <v-row>
         <v-col cols="12">
-          <v-card
-          class="white lighten-4 p-5"
-            tile
-          >
-   <v-list-item three-line>
-      <v-list-item-content>
-        <v-list-item-title class="headline mb-1">
- <h1 >{{ team.teamName }}</h1>
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          </v-list-item-subtitle>
-              <v-list-item-subtitle>
-        <v-btn small color="error" @click="registerMyTeam">MyTeamに登録</v-btn>
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
+          <v-card class="white lighten-4 p-5" tile>
+            <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">
+                  <h1>{{ team.teamName }}</h1>
+                </v-list-item-title>
+                <v-list-item-subtitle> </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  <v-btn
+                    small
+                    color="error"
+                    v-if="currentUser"
+                    @click="registerMyTeam"
+                    >MyTeamに登録</v-btn
+                  >
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-        <teamReviews :id="team.id" />
-  </v-content>
-</v-app>
+    <teamGames />
+    <teamReviews :id="team.id" />
+  </div>
+  <!-- </v-content> -->
+  <!-- </v-app> -->
 
-<!-- 
+  <!-- 
   <div class="container">
     <header class="jumbotron">
       <h3>
@@ -43,7 +49,7 @@
       {{team.id}}
     </p> -->
 
-<!-- 
+  <!-- 
 </div> -->
 </template>
 
@@ -51,46 +57,49 @@
 // import axios from 'axios';
 import swal from "sweetalert";
 import teamReviews from "@/components/TeamReviews";
+import teamGames from "@/components/TeamGames";
 
 export default {
- components: {
+  components: {
     teamReviews,
+    teamGames
   },
   props: ["teamName"],
-  data(){
-  return{
-    team:{},
-    favoriteTeam:{
-      
-    }
-  }
-  }
-  ,
-      computed: {
+  data() {
+    return {
+      team: {},
+      favoriteTeam: {},
+    };
+  },
+  computed: {
     currentUser() {
       return this.$store.state.auth.user;
-    }
+    },
   },
   async mounted() {
-    let response = await this.$http.get("api/auth/getTeamInfo",
-// axios.get('http://localhost:8080/api/auth/getTeamInfo',
-        {
-          params:{
-            teamName:this.teamName },
-          headers: {
-            token: localStorage.getItem("jwt")
-          }
-        }
-        
-      )
-      this.team = response.data.team;
-      // console.log(this.team)
+    let response = await this.$http.get(
+      "api/auth/getTeamInfo",
+      // axios.get('http://localhost:8080/api/auth/getTeamInfo',
+      {
+        params: {
+          teamName: this.teamName,
+        },
+        headers: {
+          token: localStorage.getItem("jwt"),
+        },
+      }
+    );
+    this.team = response.data.team;
+    // console.log(this.team)
   },
   methods: {
-    async  registerMyTeam() {
+    async registerMyTeam() {
       try {
-      await this.$http.post("api/auth/registerTeam", {userId:this.currentUser.id,
-      teamId:this.team.id,teamName:this.team.teamName});
+        await this.$http.post("api/auth/registerTeam", {
+          userId: this.currentUser.id,
+          teamId: this.team.id,
+          teamName: this.team.teamName,
+        });
         // console.log(response);
       } catch (err) {
         let error = err.response;
@@ -100,7 +109,7 @@ export default {
           swal("Error", error.data.err.message, "error");
         }
       }
-    }
+    },
   },
 };
 </script>

@@ -31,6 +31,8 @@ db.favoriteTeam = require("../models/favoriteTeam.model.js")(
 
 db.game.hasMany(db.reviews)
 db.reviews.belongsTo(db.game);
+db.user.hasMany(db.reviews)
+db.reviews.belongsTo(db.user);
 
 //userはbelongstoManyっぽい
 

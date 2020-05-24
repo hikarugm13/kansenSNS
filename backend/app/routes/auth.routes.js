@@ -22,6 +22,12 @@ module.exports = function (app) {
   app.post("/api/auth/signin", controller.signin);
   app.get("/api/auth/user", [authJwt.verifyToken], userController.find);
 
+  app.get(
+    "/api/auth/findSupporterInfo",
+    // [authJwt.verifyToken],
+    userController.findSupporterInfo
+  );
+
   app.post(
     "/api/auth/updateProfile",
     [authJwt.verifyToken],
@@ -34,6 +40,16 @@ module.exports = function (app) {
     gameController.find
   );
   app.get(
+    "/api/auth/findNewGames",
+    // [authJwt.verifyToken],
+    gameController.findNewGames
+  );
+  app.get(
+    "/api/auth/findAllNewGames",
+    // [authJwt.verifyToken],
+    gameController.findAllNewGames
+  );
+  app.get(
     "/api/auth/findTeamReview",
     // [authJwt.verifyToken],
     gameController.findTeamReview
@@ -42,6 +58,11 @@ module.exports = function (app) {
     "/api/auth/findFavoriteTeamGames",
     // [authJwt.verifyToken],
     gameController.findFavoriteTeamGames
+  );
+  app.get(
+    "/api/auth/findTeamGames",
+    // [authJwt.verifyToken],
+    gameController.findTeamGames
   );
   app.get(
     "/api/auth/findGameDetail",
@@ -75,13 +96,18 @@ module.exports = function (app) {
   );
 
   app.get(
+    "/api/auth/getTenReview",
+    // [authJwt.verifyToken],
+    reviewController.getTenReview
+  );
+  app.get(
     "/api/auth/getAllReview",
     // [authJwt.verifyToken],
     reviewController.getAllReview
   );
   app.get(
     "/api/auth/showMyReview",
-    [authJwt.verifyToken],
+    // [authJwt.verifyToken],
     reviewController.getMyReview
   );
   app.get(

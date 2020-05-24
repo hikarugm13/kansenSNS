@@ -4,7 +4,11 @@
       <v-row>
         <v-col cols="6"
           ><v-subheader
-            class="display-1"
+          :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3"
             v-text="'ユーザーネーム'"
           ></v-subheader
         ></v-col>
@@ -17,14 +21,18 @@
         </v-col>
         <v-col cols="6"
           ><v-subheader
-            class="display-1"
+            :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3"
             v-text="'プロフィール画像'"
           ></v-subheader>
           <v-img
             class="blue--text align-end"
             height="200px"
             v-if="user.image"
-            :src="require('../../public/' + user.image)"
+            :src="user.image"
           >
           </v-img>
         </v-col>
@@ -43,7 +51,11 @@
 
         <v-col cols="6"
           ><v-subheader
-            class="display-1"
+            :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3"
             v-text="'メールアドレス'"
           ></v-subheader
         ></v-col>
@@ -56,34 +68,46 @@
         </v-col>
 
         <v-col cols="6">
-          <v-subheader class="display-1" v-text="'性別'"></v-subheader>
+          <v-subheader :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3" v-text="'性別'"></v-subheader>
         </v-col>
         <v-col cols="6">
           <v-radio-group v-model="user.gender" row>
             <v-radio label="男性" value="male"></v-radio>
             <v-radio label="女性" value="female"></v-radio>
+            <v-radio label="その他" value="other"></v-radio>
           </v-radio-group>
         </v-col>
         <v-col cols="6">
           <v-subheader
-            class="display-1"
+            :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3"
             v-text="'好きなスポーツ'"
           ></v-subheader>
         </v-col>
         <v-col cols="6">
           <v-select
-            v-model="user.favoriteSports"
+            v-model="user.favoriteSport"
             :items="sports"
             label="選択"
-            multiple
             chips
             hint=""
             persistent-hint
           ></v-select>
         </v-col>
-        <v-col cols="6"
+        <!-- <v-col cols="6"
           ><v-subheader
-            class="display-1"
+            :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3"
             v-text="'応援しているチーム'"
           ></v-subheader
         ></v-col>
@@ -97,20 +121,23 @@
             hint=""
             persistent-hint
           ></v-select>
-        </v-col>
+        </v-col> -->
 
         <v-col cols="6"
           ><v-subheader
-            class="display-1"
+            :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3"
             v-text="'お気に入りスタジアム'"
           ></v-subheader
         ></v-col>
         <v-col cols="6">
           <v-select
-            v-model="user.favoriteSports"
+            v-model="user.favoriteStadium"
             :items="stadiums"
             label="選択"
-            multiple
             chips
             hint=""
             persistent-hint
@@ -118,7 +145,11 @@
         </v-col>
 
         <v-col cols="6"
-          ><v-subheader class="display-1" v-text="'プロフィール'"></v-subheader
+          ><v-subheader :class="[
+                        $vuetify.breakpoint.smAndDown
+                          ? 'subtitle-1'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3" v-text="'プロフィール'"></v-subheader
         ></v-col>
         <v-col cols="6">
           <v-textarea
@@ -129,12 +160,10 @@
             value=""
           ></v-textarea>
         </v-col>
-
       </v-row>
-      <v-row justify="center" 
-        align="center">
-          <v-btn class="mr-4" @click="editReview">submit</v-btn>
-          <backButton />
+      <v-row justify="center" align="center">
+        <v-btn class="mr-4" @click="editReview">submit</v-btn>
+        <backButton />
       </v-row>
     </v-container>
   </v-form>
@@ -155,31 +184,33 @@ export default {
       imageFile: null,
       //選択肢
       sports: ["サッカー", "野球", "バスケットボール", "ラグビー"],
-      teams: ["サッカー", "野球", "バスケットボール", "ラグビー"],
-      stadiums: ["サッカー", "野球", "バスケットボール", "ラグビー"],
-      user: {
-        username: "",
-        email: "",
-        password: "",
-        gender: "",
-        profile: "",
-        image: "",
-      },
-      favoriteTeam: {},
-      favoriteStadium: {},
-      favoriteSports: {},
+      // teams: ["サッカー", "野球", "バスケットボール", "ラグビー"],
+      stadiums: [
+        "味の素スタジアム",
+        "神宮球場",
+        "東京ドーム",
+        "西が丘競技場",
+        "秩父宮ラグビー場",
+        "国立代々木競技場",
+      ],
+      user: {},
+      // favoriteTeam: {},
+      // favoriteStadium: {},
+      // favoriteSports: {},
     };
   },
   async mounted() {
-  let response = await this.$http.get("api/auth/user",
+    let response = await this.$http.get(
+      "api/auth/user",
       // .get("http://localhost:8080/api/auth/user", {
-       { headers: {
+      {
+        headers: {
           token: localStorage.getItem("jwt"),
         },
-      })
-     
-        this.user = response.data.user;
+      }
+    );
 
+    this.user = response.data.user;
   },
   methods: {
     onFileChange(e) {
@@ -209,6 +240,7 @@ export default {
           if (res.data.status === "error") {
             alert(res.data.error);
           } else {
+            console.log(this.user);
             try {
               let response = await this.$http.post(
                 "api/auth/updateProfile",
@@ -240,6 +272,8 @@ export default {
         }
       } else {
         try {
+          console.log(this.user);
+
           let response = await this.$http.post(
             "api/auth/updateProfile",
             this.user,

@@ -1,4 +1,4 @@
-// import axios from "axios";
+import axios from "axios";
 export const myteam = {
          namespaced: true,
          state: { teams: [] },
@@ -13,21 +13,25 @@ export const myteam = {
          },
   actions: {
            
-           async addTeam(context, user) {
-             let response = await this.$http.get("api/auth/findFavoriteTeam",
-              //  .get("http://localhost:8080/api/auth/findFavoriteTeam",
+           addTeam(context, user) {
+             axios
+               .get(
+                 "https://kansensns.herokuapp.com/api/auth/findFavoriteTeam",
                  {
-                 params: {
-                   userId: user.id
-                 },
-                 headers: {
-                   token: localStorage.getItem("jwt")
+                   params: {
+                     userId: user.id,
+                   },
+                   headers: {
+                     token: localStorage.getItem("jwt"),
+                   },
                  }
-               })
-                //  console.log(response)
+               )
+               .then((response) => {
+                 //  console.log(response)
                  const team = response.data.favoriteTeam;
-                //  console.log(team)
+                 //  console.log(team)
                  context.commit("addTeam", team);
+               });
            }
          }
        };

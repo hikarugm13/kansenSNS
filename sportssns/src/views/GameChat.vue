@@ -1,94 +1,148 @@
 <template>
-  <div id="app">
-    <transition-group name="chat" tag="div" class="list content">
-      <section v-for="{ key, name, message } in chat" :key="key" class="item" >
-        <div class="item-image"><img :src="'../../public/'+ user.image" width="40" height="40"></div>
+  <div id="app" class="app">
+    <!-- <v-img  src="../../public/uploads/41066.jpg" > -->
+    <transition-group name="chat" tag="div" class="list content" >
+      <section v-for="{ key, name, message } in chat" :key="key" >
+        <div v-if="currentUser.username !=name">
+        <!-- <div class="item-image">
+          <img :src="user.image" width="40" height="40" />
+        </div> -->
         <div class="item-detail">
           <div class="item-name">{{ name }}</div>
           <div class="item-message">
-            <nl2br tag="div" :text="message"/>
+            <nl2br tag="div" :text="message" />
           </div>
+        </div>
+        </div>
+
+<!-- 自分が投稿した場合  -->
+        <div v-if="currentUser.username ==name" class="item" >
+        <!-- <div class="item-image">
+          <img :src="user.image" width="40" height="40" />
+        </div> -->
+        <div class="item-detail">
+          <div class="item-name">{{ name }}</div>
+          <div class="item-message">
+            <nl2br tag="div" :text="message" />
+          </div>
+        </div>
         </div>
       </section>
     </transition-group>
-  
+
     <!-- 入力フォーム -->
-    <form action="" @submit.prevent="doSend" class="form">
+    <form action="" @submit.prevent="doSend" class="form" >
       <textarea
         v-model="input"
-        @keydown.enter.exact.prevent="doSend"></textarea>
-      <button type="submit" class="send-button">Send</button>
+        @keydown.enter.exact.prevent="doSend"
+        maxlength="400"
+      ></textarea>
+      <button type="submit" class="send-button">送信</button>
     </form>
+        <!-- <v-form action="" @submit.prevent="doSend" class="form">
+      <v-container fluid>
+        <v-row justify="center"
+          align="center">
+          <v-col cols="12" md="6" 
+          
+          >
+        <v-textarea
+          outlined
+          row-height="15"
+          rows="1"
+          background-color="grey lighten-2"
+          v-model="input"
+          @keydown.enter.exact.prevent="doSend"
+        ></v-textarea>
+          </v-col>
+        </v-row>
+      </v-container>
+      <button type="submit" class="send-button">送信</button>
+    </v-form> -->
+        <!-- </v-img> -->
   </div>
 </template>
 
 <script>
 // firebase モジュール
-import firebase from 'firebase'
-import Nl2br from 'vue-nl2br'
+import firebase from "firebase";
+import Nl2br from "vue-nl2br";
 export default {
   props: ["gameId"],
   components: { Nl2br },
   data() {
     return {
       user: this.currentUser, // ユーザー情報
-      chat: [],  // 取得したメッセージを入れる配列
-      input: ''  // 入力したメッセージ
-    }
-  },  
+      chat: [], // 取得したメッセージを入れる配列
+      input: "", // 入力したメッセージ
+    };
+  },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
-    }
+    },
   },
   created() {
-    this.user = this.currentUser
-    const ref_message = firebase.database().ref('game/' + this.gameId)
-      if (this.user) {
-        this.chat = []
-        // message に変更があったときのハンドラを登録
-        ref_message.limitToLast(10).on('child_added', this.childAdded)
-      } else {
-        // message に変更があったときのハンドラを解除
-        ref_message.limitToLast(10).off('child_added', this.childAdded)
-      }
+    this.user = this.currentUser;
+    const ref_message = firebase.database().ref("game/" + this.gameId);
+    if (this.user) {
+      this.chat = [];
+      // message に変更があったときのハンドラを登録
+      ref_message.on("child_added", this.childAdded);
+    } else {
+      // message に変更があったときのハンドラを解除
+      ref_message.off("child_added", this.childAdded);
+    }
   },
- methods: {
+  methods: {
     // スクロール位置を一番下に移動
     scrollBottom() {
       this.$nextTick(() => {
-        window.scrollTo(0, document.body.clientHeight)
-      })
+        window.scrollTo(0, document.body.clientHeight);
+      });
     },
     // 受け取ったメッセージをchatに追加
     // データベースに新しい要素が追加されると随時呼び出される
     childAdded(snap) {
-      const message = snap.val()
+      const message = snap.val();
       this.chat.push({
         key: snap.key,
         name: message.name,
-        image: message.image,
-        message: message.message
-      })
-      this.scrollBottom()
+        message: message.message,
+      });
+      this.scrollBottom();
     },
-    doSend() {
-      console.log(this.currentUser)
-      // if (this.user.uid && this.input.length) {
-        // firebase にメッセージを追加
-        firebase.database().ref('game/' + this.gameId).push({
-          message: this.input,
-          name: this.currentUser.username,
-          image: this.currentUser.image
-        }, () => {
-          this.input = '' // フォームを空にする
-        })
-      }
-    // }
-  }
-}
+    doSend(e) {
+      console.log(e.type)
+       if (e.keyCode !== 13&&e.type !== "submit") return
+      if (this.input.length) {
+      // firebase にメッセージを追加
+      firebase
+        .database()
+        .ref("game/" + this.gameId)
+        .push(
+          {
+            message: this.input,
+            name: this.currentUser.username,
+            // image: this.currentUser.image,
+          },
+          () => {
+            this.input = ""; // フォームを空にする
+          }
+        );
+    }
+    }
+  },
+};
 </script>
 <style scoped>
+.app{
+  background-image: url("../../public/uploads/41066.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
 * {
   margin: 0;
   box-sizing: border-box;
@@ -101,8 +155,9 @@ export default {
 }
 .content {
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 10px 10px;
   max-width: 600px;
+  /* height: 100vh; */
 }
 .form {
   position: fixed;
@@ -110,27 +165,35 @@ export default {
   justify-content: center;
   align-items: center;
   bottom: 0;
-  left: 10%;
-  height: 13em;
-  width: 80%;
-  background: #f5f5f5;
+  /* left: 10%; */
+  height: 5em;
+  width: 100%;
+  background:#424242;
 }
 .form textarea {
   border: 1px solid #ccc;
   border-radius: 2px;
-  height: 10em;
-  width: calc(100% - 20em);
+  height: 3em;
+  width: 60%;
   resize: none;
   background-color: white;
+  
 }
 .list {
-  margin-bottom: 100px;
+  /* margin-bottom: 4em; */
+  padding-bottom: 5em;
+  padding-top: 5em;
 }
+/* 自分が投稿した場合 */
 .item {
   position: relative;
   display: flex;
   align-items: flex-end;
   margin-bottom: 0.8em;
+   justify-content: flex-end;
+}
+.item .item-name{
+  text-align: right;
 }
 .item-image img {
   border-radius: 20px;
@@ -141,6 +204,7 @@ export default {
 }
 .item-name {
   font-size: 75%;
+  color: white;
 }
 .item-message {
   position: relative;
@@ -149,8 +213,13 @@ export default {
   background: #deefe8;
   border-radius: 4px;
   line-height: 1.2em;
+  max-width: 600px;
 }
-.item-message::before {
+.item-message div{
+  max-width: 600px;
+  word-break: break-all;
+}
+/* .item-message::before {
   position: absolute;
   content: " ";
   display: block;
@@ -158,10 +227,11 @@ export default {
   bottom: 12px;
   border: 4px solid transparent;
   border-right: 12px solid #deefe8;
-}
+} */
 .send-button {
-  height: 4em;
+  height: 2em;
   width: 4em;
+  margin-left: 1em;
   color: white;
   background-color: grey;
 }

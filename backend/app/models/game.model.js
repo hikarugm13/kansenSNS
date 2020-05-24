@@ -1,35 +1,38 @@
 module.exports = (sequelize, Sequelize) => {
   const Game = sequelize.define("games", {
     sportsName: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     level: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     league: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     gameDate: {
-      type: Sequelize.STRING
+      type: Sequelize.DataTypes.DATEONLY,
     },
     startTime: {
-      type: Sequelize.DATE 
+      type: Sequelize.STRING,
     },
     endTime: {
-      type: Sequelize.DATE 
+      type: Sequelize.STRING,
     },
     homeTeamId: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     awayTeamId: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     stadiumId: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     stadiumName: {
-      type: Sequelize.STRING
-    }
+      type: Sequelize.STRING,
+    },
+    broadcaster: {
+      type: Sequelize.STRING,
+    },
   });
 
   return Game;

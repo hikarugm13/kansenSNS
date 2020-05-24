@@ -14,25 +14,49 @@ const routes = [
   //   }
   // },
   {
-    path: "/",
+    path: "/signIn",
     name: "signIn",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import("../views/signIn.vue")
+    component: () => import("../views/signIn.vue"),
   },
   {
     path: "/signUp",
     name: "signUp",
-    component: () => import("../views/signUp.vue")
+    component: () => import("../views/signUp.vue"),
   },
   {
-    path: "/findGame",
+    path: "/",
     name: "findGame",
     component: () => import("../views/FindGame.vue"),
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/detailSearch",
+    name: "detailSearch",
+    component: () => import("../views/DetailSearch.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/newReviews",
+    name: "newReviews",
+    component: () => import("../views/NewReviews"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/allNewGames",
+    name: "allNewGames",
+    component: () => import("../views/AllNewGames"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/gameDetail/:id",
@@ -40,8 +64,8 @@ const routes = [
     props: true,
     component: () => import("../views/GameDetail.vue"),
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: "/postReview/:id",
@@ -49,8 +73,8 @@ const routes = [
     props: true,
     component: () => import("../views/PostReview.vue"),
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: "/reviewDetail/:id",
@@ -58,8 +82,8 @@ const routes = [
     props: true,
     component: () => import("../views/ReviewDetail.vue"),
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: "/gameChat/:gameId",
@@ -67,8 +91,8 @@ const routes = [
     props: true,
     component: () => import("../views/GameChat.vue"),
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: "/stadiumDetail/:stadiumId",
@@ -76,8 +100,17 @@ const routes = [
     props: true,
     component: () => import("../views/Stadium.vue"),
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/supporterInfo/:supporterId",
+    name: "supporterPage",
+    props: true,
+    component: () => import("../views/SupporterPage.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/myPage/:id",
@@ -85,13 +118,13 @@ const routes = [
     props: true,
     component: () => import("../views/MyPage.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     },
     beforeEnter: (to, from, next) => {
-      if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (localStorage.getItem("jwt") == null) {
           next({
-            path: "/"
+            path: "/",
           });
         } else {
           next();
@@ -99,7 +132,7 @@ const routes = [
       } else {
         next();
       }
-    }
+    },
   },
   {
     path: "/profile/:id",
@@ -107,13 +140,13 @@ const routes = [
     props: true,
     component: () => import("../views/Profile.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     },
     beforeEnter: (to, from, next) => {
-      if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (localStorage.getItem("jwt") == null) {
           next({
-            path: "/"
+            path: "/",
           });
         } else {
           next();
@@ -121,7 +154,7 @@ const routes = [
       } else {
         next();
       }
-    }
+    },
   },
   {
     path: "/myCalendar/:id",
@@ -129,8 +162,8 @@ const routes = [
     props: true,
     component: () => import("../views/MyCalendar.vue"),
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: "/teamInfo/:teamName",
@@ -138,9 +171,9 @@ const routes = [
     props: true,
     component: () => import("../views/Team.vue"),
     meta: {
-      requiresAuth: true
-    }
-  }
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = new VueRouter({
@@ -150,11 +183,11 @@ const router = new VueRouter({
   //これで遷移したときに一番上まで戻ってくれる。
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
-      return { x: 0, y: 0 }
+      return { x: 0, y: 0 };
     }
-  }
+  },
 });
 // router.beforeEach((to, from, next) => {
 //   if (to.matched.some(record => record.meta.requiresAuth)) {

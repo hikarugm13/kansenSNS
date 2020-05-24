@@ -1,213 +1,189 @@
 <template>
   <v-app>
-    <v-content>
-      <section id="hero">
-        <v-row no-gutters>
-          <v-img
-            :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
-            src=""
-          >
-            <v-theme-provider>
-                <v-container fill-height>
-              <v-form
-                class="text-center"
-                @submit.prevent="findGame"
+    <div class="d-none d-sm-flex">
+    <v-toolbar dense color="grey lighten-3" height="70px">
+      <v-container class=" mt-8">
+        <v-form class="text-center" @submit.prevent="findGame">
+          <v-row class="white--text" justify="start" align="top">
+            <v-col cols="4" lg="4" xs="5" class="white--text text-center my-1"  tag="h3">
+              <!-- <label>スポーツで探す</label> -->
+              <v-select
+                class="light-blue--text text-center"
+                :items="sports"
+                v-model="parameters.sports"
+                background-color="grey lighten-5"
+                filled
+                label="スポーツ"
+              ></v-select>
+            </v-col>
+            <!-- <v-col class="white--text text-center my-1" cols="3" tag="h3">
+              <label>スタジアムで探す</label>
+              <v-select
+                :items="stadium"
+                label="スタジアムで探す"
+                v-model="parameters.stadium"
+                background-color="grey lighten-5"
+                filled
+              ></v-select>
+            </v-col> -->
+            <!-- <v-col class="white--text text-center my-1" cols="3" tag="h3">
+              <label>カテゴリーで探す</label>
+              <v-select
+                :items="level"
+                label="カテゴリーで探す"
+                background-color="grey lighten-5"
+                v-model="parameters.level"
+                filled
+              ></v-select>
+            </v-col> -->
+            <v-col cols="4" lg="4" xs="5"  class="white--text text-center my-1" tag="h3">
+              <!-- <label>日程で探す</label> -->
+              <v-menu
+                v-model="menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+                lavel="日程"
               >
-                  <v-row
-                    class="white--text mx-auto"
-                    justify="center"
-                  >
-                    <v-col
-                      class="light-blue--text text-center mb-3"
-                      cols="12"
-                      tag="h1"
-                    >
-                      <br />
-                      <span
-                        :class="[
-                          //sm以下ならの三項演算子
-                          $vuetify.breakpoint.smAndDown
-                            ? 'display-3'
-                            : 'display-4',
-                        ]"
-                        class="font-weight-black"
-                      >
-                        KANSEN
-                      </span>
-                      <br />
-                      <span
-                        class="font-weight-light"
-                        :class="[
-                          $vuetify.breakpoint.smAndDown
-                            ? 'display-1'
-                            : 'display-2',
-                        ]"
-                      >
-                        スポーツ観戦を楽しもう！
-                      </span>
-                    </v-col>
-                    <v-col
-                      class="light-blue--text text-center mt-3"
-                      cols="3"
-                      tag="h1"
-                    >
-                      <v-select
-                        class="light-blue--text text-center"
-                        :items="sports"
-                        label="スポーツで探す"
-                        v-model="parameters.sports"
-                        outlined
-                      ></v-select>
-                    </v-col>
-                    <v-col
-                      class="light-blue--text text-center mt-3"
-                      cols="3"
-                      tag="h1"
-                    >
-                      <v-select
-                        :items="stadium"
-                        label="スタジアムで探す"
-                        v-model="parameters.stadium"
-                        outlined
-                      ></v-select>
-                    </v-col>
-                    <v-col
-                      class="light-blue--text text-center mt-3"
-                      cols="3"
-                      tag="h1"
-                    >
-                      <v-select
-                        :items="level"
-                        label="レベルで探す"
-                        v-model="parameters.level"
-                        outlined
-                      ></v-select>
-                    </v-col>
-                    <v-col
-                      class="light-blue--text text-center mt-3"
-                      cols="3"
-                      tag="h1"
-                    >
-                      <v-menu
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="290px"
-                      >
-                        <template v-slot:activator="{ on }">
-                          <v-text-field
-                            v-model="picker"
-                            label="日程で探す"
-                            readonly
-                            outlined
-                            v-on="on"
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker
-                          v-model="picker"
-                          @input="menu = false"
-                        ></v-date-picker>
-                      </v-menu>
-                    </v-col>
-                    <v-btn
-                      btn
-                    
-                      color="primary"
-                      dark
-                      w-25
-                      my-4
-                      type="submit"
-                      @click="$vuetify.goTo('#games')"
-                    >
-                      Find Games!
-                    </v-btn>
-                    <!-- <v-btn
-                    class="align-self-end"
-                    fab
-                    outlined
-                    @click="$vuetify.goTo('#games')"
-                  >
-                    <v-icon>mdi-chevron-double-down</v-icon>
-                  </v-btn> -->
-                  </v-row>
-              </v-form>
-                </v-container>
-            </v-theme-provider>
-          </v-img>
-        </v-row>
-      </section>
-
-      <section id="games" class="grey lighten-4">
-        <div class="py-12"></div>
-
-        <v-container class="text-center">
-          <h2 class="display-2 font-weight-bold mb-3">GAMES</h2>
-
-          <v-responsive class="mx-auto mb-8" width="56">
-            <v-divider class="mb-1"></v-divider>
-
-            <v-divider></v-divider>
-          </v-responsive>
-
-          <v-responsive
-            class="mx-auto title font-weight-light mb-8"
-            max-width="720"
-          >
-          </v-responsive>
-          <v-row>
-            <v-col
-              cols="12"
-              md="4"
-              v-for="game in games"
-              v-bind:key="game.id"
-            >
-              <v-card class="py-12 px-4" color="grey lighten-5" flat>
-                <v-card-title
-                  class="justify-center font-weight-black text-uppercase"
-                >
-                  {{ game.homeTeamId }} VS {{ game.awayTeamId }}
-                </v-card-title>
-                <v-card-text class="subtitle-1">
-                  {{ game.gameDate }} at {{ game.stadiumName }}
-                </v-card-text>
-
-                <router-link
-                  v-bind:to="{ name: 'gameDetail', params: { id: game.id } }"
-                >
-                  <v-btn color="warning" dark>
-                    <span>詳細</span>
-                  </v-btn>
-                </router-link>
-                <!-- <router-link v-bind:to="{ name : 'gameDetail', params : { id: game.id }}"></router-link> -->
-              </v-card>
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="picker"
+                    label="日程で探す"
+                    readonly
+                    filled
+                    background-color="grey lighten-5"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="picker"
+                  @input="menu = false"
+                ></v-date-picker>
+              </v-menu>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col class="white--text text-center my-4 mr-" cols="4" tag="h3">
+              <v-btn
+                btn
+                color="grey darken-3"
+                dark
+                w-25
+                my-4
+                type="submit"
+                @click="$vuetify.goTo('#games')"
+              >
+                試合検索
+              </v-btn>
             </v-col>
           </v-row>
+        </v-form>
+      </v-container>
+    </v-toolbar></div>
 
-          <div></div>
-        </v-container>
+    <section id="top">
+      <v-row no-gutters>
+        <v-img :height="'calc(22vh)'" src="../../public/uploads/41066.jpg">
+          <v-container fill-height>
+            <v-col class="white--text text-center mb" cols="12" tag="h2">
+              <span
+                :class="[
+                  //sm以下ならの三項演算子
+                  $vuetify.breakpoint.smAndDown ? 'display-3' : 'display-4',
+                ]"
+                class="font-weight-black"
+              >
+                Tailgate
+              </span>
+              <br />
+              <span
+                class="font-weight-light "
+                :class="[$vuetify.breakpoint.smAndDown ? 'title' : 'title']"
+              >
+                スポーツの感動を仲間と
+              </span>
+            </v-col>
+          </v-container>
+        </v-img>
+      </v-row>
+    </section>
 
+    <section id="newGames" class="grey lighten-4">
+      <v-container class="text-center">
+        <newGames />
+        <router-link :to="{ name: 'allNewGames' }">
+          <v-btn color="yellow lighten-1">もっと見る</v-btn></router-link
+        >
+      </v-container>
+    </section>
+
+    <section id="games" class="">
+      <!-- <div class="py-12"></div> -->
+      <v-container class="text-center" :height="'calc(100vh)'">
+        <v-responsive class="mx-auto mb-3" width="56"> </v-responsive>
+        <div :class="[
+                        //sm以下ならの三項演算子
+                        $vuetify.breakpoint.smAndDown
+                          ? 'title'
+                          : 'headline',
+                      ]" class="font-weight-black pb-3">検索結果</div>
+        <v-responsive class="mx-auto mb-3" width="56">
+          <v-divider class="mb-1"></v-divider>
+          <!-- <v-divider></v-divider> -->
+        </v-responsive>
+
+        <v-responsive
+          class="mx-auto title font-weight-light mb-8"
+          max-width="720"
+        >
+        </v-responsive>
+        <v-row>
+          <v-col cols="12" md="4" v-for="game in games" v-bind:key="game.id">
+            <v-card class="py-12 px-4" color="grey lighten-5" tile hover>
+              <v-card-title
+                class="justify-center font-weight-black text-uppercase "
+              >
+                {{ game.homeTeamId }} VS {{ game.awayTeamId }}
+              </v-card-title>
+              <v-card-text class="subtitle-1">
+                {{ game.gameDate }} at {{ game.stadiumName }}
+              </v-card-text>
+
+              <router-link
+                v-bind:to="{ name: 'gameDetail', params: { id: game.id } }"
+              >
+                <v-btn color="grey darken-3 text--white" dark>
+                  <span>詳細</span>
+                </v-btn>
+              </router-link>
+              <!-- <router-link v-bind:to="{ name : 'gameDetail', params : { id: game.id }}"></router-link> -->
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <div></div>
+      </v-container>
+
+      <div class="py-12"></div>
+    </section>
+
+    <section class="grey lighten-4">
+      <v-container class="text-center">
+        <allReviews />
+        <router-link :to="{ name: 'newReviews' }">
+          <v-btn color="yellow lighten-1">もっと見る</v-btn></router-link
+        >
         <div class="py-12"></div>
-      </section>
-      <section id="reviews" class="grey lighten-4">
-        <div class="py-12"></div>
-        <v-container class="text-center" >
+        <div></div>
+      </v-container>
+    </section>
 
-          <allReviews />
-
-          <div></div>
-        </v-container>
-
-        <div class="py-12"></div>
-      </section>
-    </v-content>
-
-    <v-footer class="justify-center light-blue accent-3"  height="100">
+    <v-footer class="justify-center grey darken-3" height="100">
       <div
-        class="title font-weight-light white--text text--lighten-1 text-center"
+        class="title font-weight-light white--text text--lighten-1 text-center font-italic"
       >
-KANSEN!
+        Tailgate!
       </div>
     </v-footer>
   </v-app>
@@ -215,10 +191,12 @@ KANSEN!
 <script>
 // import swal from "sweetalert";
 import allReviews from "@/components/AllReviews";
+import newGames from "@/components/NewGames";
 
 export default {
   components: {
     allReviews,
+    newGames,
   },
   data() {
     return {
@@ -234,9 +212,16 @@ export default {
       },
       menu: false,
       games: [],
-      sports: ["", "soccer", "baseball", "basketball", "rugby"],
-      level: ["", "professional", "amature", "semi-pro"],
-      stadium: ["", "AJINOMOTO STADIUM"],
+      newGames: [],
+      sports: ["", "サッカー", "野球", "バスケットボール", "ラグビー"],
+      level: ["", "プロ", "社会人", "大学", "高校", "中学"],
+      stadium: [
+        "",
+        "味の素スタジアム",
+        "東京ドーム",
+        "アリーナ立川立飛",
+        "秩父宮ラグビー場",
+      ],
     };
   },
   methods: {
@@ -257,20 +242,6 @@ export default {
       this.games = response.data.game;
       // console.log(this.$store.state.auth);
     },
-    // import axios from 'axios';
-    // signInUser() {
-    //   axios.post('http://localhost:8080/api/auth/signin', this.signIn)
-    //     .then(res => {
-    //       //if successfull
-    //       if (res.status === 200) {
-    //         console.log(res)
-    //         localStorage.setItem('jwt', res.data.token);
-    //         this.$router.push('/home');
-    //       }
-    //     }, err => {
-    //       console.log(err.response);
-    //       this.error = err.response.data.error
-    //     })
   },
 };
 </script>

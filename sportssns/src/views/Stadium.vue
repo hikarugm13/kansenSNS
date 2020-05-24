@@ -1,6 +1,8 @@
 <template
-  ><v-app>
-    <v-content class="grey lighten-4">
+  >
+  <!-- <v-app> -->
+    <!-- <v-content class="grey lighten-4"> -->
+  <div class="grey lighten-4">
       <v-container>
         <v-row>
           <v-col cols="12">
@@ -8,19 +10,44 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <v-list-item-title class="headline mb-1">
-                    <h1>{{ stadium.stadiumName }}</h1>
+                    <div :class="[
+                        //sm以下ならの三項演算子
+                        $vuetify.breakpoint.smAndDown
+                          ? 'display-0'
+                          : 'display-2',
+                      ]">{{ stadium.stadiumName }}</div>
                   </v-list-item-title>
                   <v-list-item-subtitle>
-                   <h2>所在地：{{stadium.stadiumAddress}}</h2> 
+                   <div :class="[
+                        //sm以下ならの三項演算子
+                        $vuetify.breakpoint.smAndDown
+                          ? 'display-0'
+                          : 'display-1',
+                      ]">所在地：{{stadium.stadiumAddress}}</div> 
                      </v-list-item-subtitle>
                   <v-list-item-subtitle>
-                    <h2>収容人数：{{stadium.capacity}}人</h2>
+                    <div :class="[
+                        //sm以下ならの三項演算子
+                        $vuetify.breakpoint.smAndDown
+                          ? 'display-0'
+                          : 'display-1',
+                      ]">収容人数：{{stadium.capacity}}人</div>
                   </v-list-item-subtitle>
                   <v-list-item-subtitle>
-                    <h2>屋根：{{stadium.roofInfo}}</h2>
+                    <div :class="[
+                        //sm以下ならの三項演算子
+                        $vuetify.breakpoint.smAndDown
+                          ? 'display-0'
+                          : 'display-1',
+                      ]">屋根：{{stadium.roofInfo}}</div>
                   </v-list-item-subtitle>
                   <v-list-item-subtitle>
-                    <h2>座席：{{stadium.seatInfo}}</h2>
+                    <div :class="[
+                        //sm以下ならの三項演算子
+                        $vuetify.breakpoint.smAndDown
+                          ? 'display-0'
+                          : 'display-1',
+                      ]">座席：{{stadium.seatInfo}}</div>
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -29,8 +56,9 @@
         </v-row>
       </v-container>
       <stadiumReview :stadiumId="stadium.id" />
-    </v-content>
-  </v-app>
+  </div>
+    <!-- </v-content> -->
+  <!-- </v-app> -->
 </template>
 
 <script>
@@ -67,7 +95,6 @@ let response = await this.$http.get("api/auth/findStadiumDetail",
       })
 
         this.stadium = response.data.stadium;
-        console.log(this.stadium);
 
   },
   methods: {},
